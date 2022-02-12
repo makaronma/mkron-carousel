@@ -1,18 +1,48 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 
 const Carousel = ({ divs, divWidth, divHeight }) => {
   const [index, setIndex] = useState(0);
+  const [translateX, setTranslateX] = useState(0);
 
+  const touchStart = useRef();
+
+  // Handle X-translation
+  useEffect(() => {
+    setTranslateX(-divWidth * index);
+  }, [divWidth, index]);
+
+  // Handle arrow click
   const handleClickLeft = () => {
-    setIndex((prev) => {
-      if (prev <= 0) return prev;
-      return prev - 1;
-    });
+    goPrevSlide();
   };
   const handleClickRight = () => {
+    goNextSlide();
+  };
+
+  // Handle mobile swipe
+  const handleTouchStart = (e) => {
+    touchStart.current = e.touches[0].clientX;
+  };
+  const handleTouchEnd = (e) => {
+    const touchEnd = e.changedTouches[0].clientX;
+    const posDif = touchEnd - touchStart.current;
+    if (posDif < -divWidth / 2) {
+      goNextSlide();
+    } else if (posDif > divWidth / 2) {
+      goPrevSlide();
+    }
+  };
+
+  const goNextSlide = () => {
     setIndex((prev) => {
       if (prev >= divs.length - 1) return prev;
       return prev + 1;
+    });
+  };
+  const goPrevSlide = () => {
+    setIndex((prev) => {
+      if (prev <= 0) return prev;
+      return prev - 1;
     });
   };
 
@@ -25,7 +55,9 @@ const Carousel = ({ divs, divWidth, divHeight }) => {
     <div className="carousel" style={carouselStyle}>
       <div
         className="divsContainer"
-        style={{ transform: `translateX(${-divWidth * index}px)` }}
+        style={{ transform: `translateX(${translateX}px)` }}
+        onTouchStart={handleTouchStart}
+        onTouchEnd={handleTouchEnd}
       >
         {divs}
       </div>
