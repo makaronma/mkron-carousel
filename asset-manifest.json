@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/mkron-slider/static/css/main.fa3e182c.css",
+    "main.js": "/mkron-slider/static/js/main.d644bfe3.js",
+    "index.html": "/mkron-slider/index.html",
+    "main.fa3e182c.css.map": "/mkron-slider/static/css/main.fa3e182c.css.map",
+    "main.d644bfe3.js.map": "/mkron-slider/static/js/main.d644bfe3.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.fa3e182c.css",
+    "static/js/main.d644bfe3.js"
+  ]
+}
